@@ -10,10 +10,7 @@
         <TabControl>
             <TabItem Header="Calendário">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid>
-                        <local:CVoluntario/>
-                        <local:CVoluntario/>
-                    </DataGrid>
+                    <DataGrid AutoGenerateColumns="False" x:Name="dataGrid" IsReadOnly="True"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Adicionar Atividade">
