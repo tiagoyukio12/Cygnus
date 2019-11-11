@@ -11,13 +11,18 @@ namespace Cygnus
     /// </summary>
     public partial class MainWindow : Window
     {
+        int currentYear = 2019;
+        int currentMonth = 10;
+        List<CAtividade> listActivities;
+
         public MainWindow()
         {
             InitializeComponent();
 
             // Calendar tab
-            int currentYear = 2019;
-            int currentMonth = 10;
+            listActivities = new List<CAtividade>();
+            CAtividade activity = new CAtividade("0001", "Rua 1", new DateTime(currentYear, currentMonth, 4), 2, "Freq");
+            listActivities.Add(activity);
             CreateCalendar(currentYear, currentMonth);
 
             // Volunteer editor tab
@@ -35,32 +40,50 @@ namespace Cygnus
         {
             int numDays = DateTime.DaysInMonth(currentYear, currentMonth);
 
-            for (int i = -1; i < numDays; i++)
+            DataGridTextColumn dataGridTextColumn = new DataGridTextColumn();
+            dataGridTextColumn.Header = "Voluntário";
+            dataGridTextColumn.Binding = new Binding("Name");
+            dataGrid.Columns.Add(dataGridTextColumn);
+
+            for (int i = 0; i < numDays; i++)
             {
-                DataGridTextColumn dataGridTextColumn = new DataGridTextColumn();
+                var day = new DateTime(currentYear, currentMonth, i + 1);
 
-                if (i == -1)
-                {
-                    dataGridTextColumn.Header = "Voluntário";
-                    dataGridTextColumn.Binding = new Binding("Name");
-                }
-                else
-                {
-                    var day = new DateTime(currentYear, currentMonth, i + 1);
+                var culture = new System.Globalization.CultureInfo("pt-BR");
+                var week_day = culture.DateTimeFormat.GetDayName(day.DayOfWeek).Substring(0, 3);
 
-                    var culture = new System.Globalization.CultureInfo("pt-BR");
-                    var week_day = culture.DateTimeFormat.GetDayName(day.DayOfWeek);
+                DataGridTextColumn columnT1 = new DataGridTextColumn();
+                DataGridTextColumn columnT2 = new DataGridTextColumn();
+                DataGridTextColumn columnT3 = new DataGridTextColumn();
 
-                    dataGridTextColumn.Header = week_day + " - " + (i + 1);
-                    dataGridTextColumn.Binding = new Binding(string.Format("Days[{0}]", i));
-                    dataGridTextColumn.CanUserSort = false;
-                }
-                dataGrid.Columns.Add(dataGridTextColumn);
+                columnT1.Header = week_day + " - D" + (i + 1) + " - T1";
+                columnT1.Binding = new Binding(string.Format("Turns[{0}]", 3 * i));
+                columnT1.CanUserSort = false;
+                dataGrid.Columns.Add(columnT1);
+
+                columnT2.Header = week_day + " - D" + (i + 1) + " - T2";
+                columnT2.Binding = new Binding(string.Format("Turns[{0}]", 3 * i + 1));
+                columnT2.CanUserSort = false;
+                dataGrid.Columns.Add(columnT2);
+
+                columnT3.Header = week_day + " - D" + (i + 1) + " - T3";
+                columnT3.Binding = new Binding(string.Format("Turns[{0}]", 3 * i + 2));
+                columnT3.CanUserSort = false;
+                dataGrid.Columns.Add(columnT3);
             }
 
-            CalendarBinding calendarBinding = new CalendarBinding("Miguel", numDays);
-            calendarBinding.Days[2] = "Evento";
+            dataGrid.Items.Clear();  // Remove old items
 
+            CalendarBinding calendarBinding = new CalendarBinding("Miguel", numDays);
+            foreach (CAtividade activity in listActivities)
+            {
+                DateTime activityDate = activity.DataInicio;
+                if (activityDate.Year == currentYear && activityDate.Month == currentMonth)
+                {
+                    int turn = activity.Turno;
+                    calendarBinding.Turns[3*activityDate.Day + turn - 4] = activity.ToString();
+                }
+            }
             dataGrid.Items.Add(calendarBinding);
         }
 
@@ -70,13 +93,32 @@ namespace Cygnus
         public class CalendarBinding
         {
             public string Name { get; set; }
-            public string[] Days { get; set; }
+            public string[] Turns { get; set; }
 
             public CalendarBinding(string name, int numDays)
             {
                 Name = name;
-                Days = new string[numDays];
+                Turns = new string[3 * numDays];
             }
+        }
+
+        private void AddActivity_Click(object sender, RoutedEventArgs e)
+        {
+            string id = idText.Text;
+            string pos = posText.Text;
+            DateTime date = (DateTime) dateCalendar.SelectedDate;
+            int turn = -1;
+            if ((bool)turnOneRadio.IsChecked)
+                turn = 1;
+            else if ((bool)turnTwoRadio.IsChecked)
+                turn = 2;
+            else if ((bool)turnThreeRadio.IsChecked)
+                turn = 3;
+            string freq = freqText.Text;
+
+            CAtividade activity = new CAtividade(id, pos, date, turn, freq);
+            listActivities.Add(activity);
+            CreateCalendar(currentYear, currentMonth);
         }
     }
 }
