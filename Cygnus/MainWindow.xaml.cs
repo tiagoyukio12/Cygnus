@@ -12,7 +12,7 @@ namespace Cygnus
     public partial class MainWindow : Window
     {
         int currentYear = 2019;
-        int currentMonth = 10;
+        int currentMonth = 11;
         List<CAtividade> listActivities;
 
         public MainWindow()
@@ -38,6 +38,10 @@ namespace Cygnus
         /// </summary>
         void CreateCalendar(int currentYear, int currentMonth)
         {
+            // Remove old items
+            dataGrid.Items.Clear();
+            dataGrid.Columns.Clear();
+
             int numDays = DateTime.DaysInMonth(currentYear, currentMonth);
 
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn();
@@ -71,8 +75,6 @@ namespace Cygnus
                 columnT3.CanUserSort = false;
                 dataGrid.Columns.Add(columnT3);
             }
-
-            dataGrid.Items.Clear();  // Remove old items
 
             CalendarBinding calendarBinding = new CalendarBinding("Miguel", numDays);
             foreach (CAtividade activity in listActivities)
