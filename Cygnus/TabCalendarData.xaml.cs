@@ -62,17 +62,20 @@ namespace Cygnus
                 dataGrid.Columns.Add(columnT3);
             }
 
-            CalendarBinding calendarBinding = new CalendarBinding("Miguel", numDays);
-            foreach (Activity activity in Activities.Instance.ToList)
+            foreach (Volunteer volunteer in Volunteers.Instance.ToList)
             {
-                DateTime activityDate = activity.StartDate;
-                if (activityDate.Year == currentYear && activityDate.Month == currentMonth)
+                CalendarBinding calendarBinding = new CalendarBinding(volunteer.Name, numDays);
+                foreach (Activity activity in volunteer.Activities)
                 {
-                    int turn = activity.Turn;
-                    calendarBinding.Turns[3 * activityDate.Day + turn - 4] = activity.ToString();
+                    DateTime activityDate = activity.StartDate;
+                    if (activityDate.Year == currentYear && activityDate.Month == currentMonth)
+                    {
+                        int turn = activity.Turn;
+                        calendarBinding.Turns[3 * activityDate.Day + turn - 4] = activity.ToString();
+                    }
                 }
+                dataGrid.Items.Add(calendarBinding);
             }
-            dataGrid.Items.Add(calendarBinding);
         }
 
         /// <summary>

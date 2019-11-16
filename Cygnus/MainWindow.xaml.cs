@@ -15,10 +15,14 @@ namespace Cygnus
             InitializeComponent();
 
             // Load activities
-            FileIO activitiesIO = new FileIO("activities.txt");
+            FileIO activitiesIO = new FileIO("activities.dat");
             List<Activity> activities = activitiesIO.ReadActivities();
-            //Activity activity = new Activity("0001", "Rua 1", new DateTime(2019, 11, 4), 2, "Freq");
             Activities.Instance.Add(activities);
+
+            // Load activities
+            FileIO volunteersIO = new FileIO("volunteers.dat");
+            List<Volunteer> volunteers = volunteersIO.ReadVolunteers();
+            Volunteers.Instance.Add(volunteers);
         }
 
         void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -26,6 +30,7 @@ namespace Cygnus
             if (e.Source is TabControl)
             {
                 TabCalendarData.CreateCalendar();
+                TabVolunteerData.CreateVolunteerGrid();
             }
         }
     }

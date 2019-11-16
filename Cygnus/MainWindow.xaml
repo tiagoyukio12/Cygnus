@@ -15,7 +15,7 @@
                 <local:TabActivityData />
             </TabItem>
             <TabItem Header="Gerenciar Voluntários">
-                <local:TabVolunteerData />
+                <local:TabVolunteerData x:Name="TabVolunteerData"/>
             </TabItem>
             <TabItem Header="Visualizar">
                 <local:TabViewData />

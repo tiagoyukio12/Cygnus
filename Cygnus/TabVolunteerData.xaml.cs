@@ -12,12 +12,13 @@ namespace Cygnus
         public TabVolunteerData()
         {
             InitializeComponent();
+            CreateVolunteerGrid();
+            
+        }
 
-            List<Volunteer> items = new List<Volunteer>();
-            DateTime dataNascimento = new DateTime(2000, 01, 01);
-            items.Add(new Volunteer() { Name = "John Doe", BirthDate = dataNascimento, Address = "Av. 1" });
-            items.Add(new Volunteer() { Name = "Jane Doe", BirthDate = dataNascimento, Address = "Av. 1" });
-            lvDataBinding.ItemsSource = items;
+        public void CreateVolunteerGrid()
+        {
+            lvDataBinding.ItemsSource = Volunteers.Instance.ToList;
         }
     }
 }

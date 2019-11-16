@@ -29,7 +29,8 @@ namespace Cygnus
             var freq = freqText.Text;
 
             Activity activity = new Activity(id, pos, date, turn, freq);
-            Activities.Instance.Add(activity);
+            Volunteers.Instance.Add(activity);
+            //Activities.Instance.Add(activity);
         }
     }
 }
