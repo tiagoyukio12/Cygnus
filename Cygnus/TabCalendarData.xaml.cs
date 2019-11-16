@@ -10,8 +10,8 @@ namespace Cygnus
     /// </summary>
     public partial class TabCalendarData : UserControl
     {
-        int currentYear = 2019;
-        int currentMonth = 11;
+        readonly int currentYear = 2019;
+        readonly int currentMonth = 11;
 
         public TabCalendarData()
         {
@@ -30,9 +30,11 @@ namespace Cygnus
 
             int numDays = DateTime.DaysInMonth(currentYear, currentMonth);
 
-            DataGridTextColumn dataGridTextColumn = new DataGridTextColumn();
-            dataGridTextColumn.Header = "Voluntário";
-            dataGridTextColumn.Binding = new Binding("Name");
+            DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Voluntário",
+                Binding = new Binding("Name")
+            };
             dataGrid.Columns.Add(dataGridTextColumn);
 
             for (int i = 0; i < numDays; i++)

@@ -14,12 +14,7 @@ namespace Cygnus
         {
             InitializeComponent();
 
-            // Load activities
-            FileIO activitiesIO = new FileIO("activities.dat");
-            List<Activity> activities = activitiesIO.ReadActivities();
-            Activities.Instance.Add(activities);
-
-            // Load activities
+            // Load volunteers
             FileIO volunteersIO = new FileIO("volunteers.dat");
             List<Volunteer> volunteers = volunteersIO.ReadVolunteers();
             Volunteers.Instance.Add(volunteers);
