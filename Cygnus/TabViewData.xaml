@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Cygnus.TabViewData"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cygnus"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#FFE5E5E5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,10,10" Text="Código:" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,10,10" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Left" Margin="10,10,10,10" Text="Nome:" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,10,10" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Margin="10,10,10,10" Text="Data:" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,10,10" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+        <Button Content="Limpar" HorizontalAlignment="Left" Margin="10,20,10,20" Grid.Row="3" VerticalAlignment="Bottom"/>
+        <Button Content="Filtrar" Grid.Column="1" HorizontalAlignment="Right" Margin="10,20,10,20" Grid.Row="3" VerticalAlignment="Bottom"/>
+    </Grid>
+</UserControl>
