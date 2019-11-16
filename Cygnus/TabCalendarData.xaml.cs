@@ -61,10 +61,6 @@ namespace Cygnus
                 columnT3.CanUserSort = false;
                 dataGrid.Columns.Add(columnT3);
             }
-            Activity activ = new Activity("0001", "Rua 1", new DateTime(2019, 11, 4), 2, "Freq");
-            Activities.Instance.Add(activ);
-            List<Activity> activities = Activities.Instance.ToList;
-
 
             CalendarBinding calendarBinding = new CalendarBinding("Miguel", numDays);
             foreach (Activity activity in Activities.Instance.ToList)

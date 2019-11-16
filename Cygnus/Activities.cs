@@ -29,6 +29,11 @@ namespace Cygnus
             ListActivities.Add(activity);
         }
 
+        public void Add(List<Activity> activities)
+        {
+            ListActivities.AddRange(activities);
+        }
+
         public List<Activity> ToList => ListActivities;
     }
 }
