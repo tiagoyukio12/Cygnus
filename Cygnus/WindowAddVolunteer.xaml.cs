@@ -30,6 +30,7 @@ namespace Cygnus
         public WindowAddVolunteer(Volunteer volunteer)
         {
             InitializeComponent();
+            addButton.Content = "Editar";
             SelectedVolunteer = volunteer;
             nameText.Text = SelectedVolunteer.Name;
             addressText.Text = SelectedVolunteer.Address;
