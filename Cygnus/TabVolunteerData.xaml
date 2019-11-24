@@ -15,8 +15,8 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button Content="Editar Voluntário" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Margin="10,10,10,10"/>
-        <Button Content="Adicionar Voluntário" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Margin="10,10,10,10"/>
+        <Button Content="Editar Voluntário" Click="EditVolunteer_Click" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Margin="10,10,10,10"/>
+        <Button Content="Adicionar Voluntário" Click="AddVolunteer_Click" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Margin="10,10,10,10"/>
         <ListView Name="lvDataBinding" Grid.ColumnSpan="2" Margin="10,10,10,10"/>
     </Grid>
 </UserControl>

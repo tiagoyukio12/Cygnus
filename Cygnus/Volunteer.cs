@@ -10,6 +10,11 @@ namespace Cygnus
         public string Address { get; set; }
         public List<Activity> Activities { get; set; }
 
+        public Volunteer()
+        {
+            Activities = new List<Activity>();
+        }
+
         public Volunteer(string name, DateTime birthDate, string address, List<Activity> activities)
         {
             Name = name;
