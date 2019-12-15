@@ -82,16 +82,21 @@ namespace Cygnus
 
         private void DataGridHeader_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if (!(e.OriginalSource is TextBlock))
+                return;
             String id = ((TextBlock)e.OriginalSource).Text;
             Volunteer owner = ((CalendarBinding)dataGrid.SelectedItem).Owner;
             Activity activity = owner.FindActivity(id);
-            WindowEditActivity windowEditActivity = new WindowEditActivity(owner, activity);
-
-            windowEditActivity.Show();
-            windowEditActivity.Closed += (s, eventarg) =>
+            if (activity != null)
             {
-                CreateCalendar();
-            };
+                WindowEditActivity windowEditActivity = new WindowEditActivity(owner, activity);
+
+                windowEditActivity.Show();
+                windowEditActivity.Closed += (s, eventarg) =>
+                {
+                    CreateCalendar();
+                };
+            }
         }
 
         /// <summary>
