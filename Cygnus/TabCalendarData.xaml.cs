@@ -66,7 +66,7 @@ namespace Cygnus
 
             foreach (Volunteer volunteer in Volunteers.Instance.ToList)
             {
-                CalendarBinding calendarBinding = new CalendarBinding(volunteer.Name, numDays);
+                CalendarBinding calendarBinding = new CalendarBinding(volunteer.Name, numDays, volunteer);
                 foreach (Activity activity in volunteer.Activities)
                 {
                     DateTime activityDate = activity.StartDate;
@@ -80,6 +80,20 @@ namespace Cygnus
             }
         }
 
+        private void DataGridHeader_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            String id = ((TextBlock)e.OriginalSource).Text;
+            Volunteer owner = ((CalendarBinding)dataGrid.SelectedItem).Owner;
+            Activity activity = owner.FindActivity(id);
+            WindowEditActivity windowEditActivity = new WindowEditActivity(owner, activity);
+
+            windowEditActivity.Show();
+            windowEditActivity.Closed += (s, eventarg) =>
+            {
+                CreateCalendar();
+            };
+        }
+
         /// <summary>
         /// Data binding class for DataGrid in calendar tab
         /// </summary>
@@ -87,11 +101,13 @@ namespace Cygnus
         {
             public string Name { get; set; }
             public string[] Turns { get; set; }
+            public Volunteer Owner { get; set; }
 
-            public CalendarBinding(string name, int numDays)
+            public CalendarBinding(string name, int numDays, Volunteer owner)
             {
                 Name = name;
                 Turns = new string[3 * numDays];
+                Owner = owner;
             }
         }
     }

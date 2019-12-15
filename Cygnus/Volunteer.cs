@@ -23,6 +23,11 @@ namespace Cygnus
             Activities = activities;
         }
 
+        public Activity FindActivity(string id)
+        {
+            return Activities.Find(x => x.Id == id);
+        }
+
         public override string ToString()
         {
             return this.Name + " - " + this.BirthDate.ToString("MM/dd/yyyy") + " - " + this.Address;
