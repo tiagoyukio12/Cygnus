@@ -8,4 +8,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
 </Project>

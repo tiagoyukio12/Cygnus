@@ -1,29 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace Cygnus
+namespace Cygnus.Views
 {
     /// <summary>
     /// Interaction logic for WindowEditActivity.xaml
     /// </summary>
     public partial class WindowEditActivity : Window
     {
-        public Volunteer Owner;
+        public Volunteer ActivityOwner;
         public Activity Activity;
 
         public WindowEditActivity(Volunteer owner, Activity activity)
         {
             InitializeComponent();
-            Owner = owner;
+            ActivityOwner = owner;
             Activity = activity;
             idText.Text = Activity.Id;
             locationText.Text = Activity.Location;
@@ -60,7 +51,7 @@ namespace Cygnus
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            Owner.Activities.Remove(Activity);
+            ActivityOwner.Activities.Remove(Activity);
             Close();
         }
     }

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Cygnus
+namespace Cygnus.Views
 {
     /// <summary>
     /// Interaction logic for TabVolunteerData.xaml

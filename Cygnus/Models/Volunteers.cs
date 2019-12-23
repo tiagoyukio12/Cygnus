@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Cygnus.Models;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Cygnus
 {
     class Volunteers
     {
         private static Volunteers instance;
-        private static List<Volunteer> ListVolunteers { get; set; }
+        public static TrulyObservableCollection<Volunteer> CollectionVolunteers { get; set; }
 
         public static Volunteers Instance
         {
@@ -21,24 +23,24 @@ namespace Cygnus
 
         private Volunteers()
         {
-            ListVolunteers = new List<Volunteer>();
+            CollectionVolunteers = new TrulyObservableCollection<Volunteer>();
         }
 
         public void Add(Volunteer volunteer)
         {
-            ListVolunteers.Add(volunteer);
+            CollectionVolunteers.Add(volunteer);
         }
 
         public void Add(List<Volunteer> volunteers)
         {
-            ListVolunteers.AddRange(volunteers);
+            volunteers.ForEach(CollectionVolunteers.Add);
         }
 
         public void Add(Activity activity)
         {
-            ListVolunteers[0].Activities.Add(activity);
+            CollectionVolunteers[0].Activities.Add(activity);
         }
 
-        public List<Volunteer> ToList => ListVolunteers;
+        public ObservableCollection<Volunteer> ToCollection => CollectionVolunteers;
     }
 }

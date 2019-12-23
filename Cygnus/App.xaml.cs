@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Cygnus
@@ -11,8 +12,8 @@ namespace Cygnus
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             FileIO volunteersIO = new FileIO("volunteers.dat");
-            List<Volunteer> volunteers = Volunteers.Instance.ToList;
-            volunteersIO.WriteVolunteers(volunteers);
+            ObservableCollection<Volunteer> volunteers = Volunteers.Instance.ToCollection;
+            volunteersIO.WriteVolunteers(new List<Volunteer>(volunteers));
         }
     }
 }

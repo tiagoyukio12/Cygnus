@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace Cygnus
+namespace Cygnus.Views
 {
     /// <summary>
     /// Interaction logic for TabCalendarData.xaml
@@ -64,7 +63,7 @@ namespace Cygnus
                 dataGrid.Columns.Add(columnT3);
             }
 
-            foreach (Volunteer volunteer in Volunteers.Instance.ToList)
+            foreach (Volunteer volunteer in Volunteers.Instance.ToCollection)
             {
                 CalendarBinding calendarBinding = new CalendarBinding(volunteer.Name, numDays, volunteer);
                 foreach (Activity activity in volunteer.Activities)

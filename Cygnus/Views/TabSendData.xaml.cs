@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Cygnus
+namespace Cygnus.Views
 {
     /// <summary>
     /// Interaction logic for TabSendData.xaml
