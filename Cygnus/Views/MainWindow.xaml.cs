@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Cygnus.Views
 {
@@ -11,11 +10,6 @@ namespace Cygnus.Views
         public MainWindow()
         {
             InitializeComponent();
-
-            // Load volunteers
-            FileIO volunteersIO = new FileIO("volunteers.dat");
-            List<Volunteer> volunteers = volunteersIO.ReadVolunteers();
-            Volunteers.Instance.Add(volunteers);
         }
     }
 }

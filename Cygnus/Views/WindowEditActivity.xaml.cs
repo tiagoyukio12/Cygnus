@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Cygnus.Models;
 
 namespace Cygnus.Views
 {
@@ -51,7 +52,7 @@ namespace Cygnus.Views
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            ActivityOwner.Activities.Remove(Activity);
+            ActivityOwner.Schedule.Activities.Remove(Activity);
             Close();
         }
     }

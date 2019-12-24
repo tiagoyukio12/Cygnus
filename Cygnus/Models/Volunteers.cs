@@ -1,8 +1,7 @@
-﻿using Cygnus.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Cygnus
+namespace Cygnus.Models
 {
     class Volunteers
     {
@@ -38,7 +37,7 @@ namespace Cygnus
 
         public void Add(Activity activity)
         {
-            CollectionVolunteers[0].Activities.Add(activity);
+            CollectionVolunteers[0].Schedule.Activities.Add(activity);
         }
 
         public ObservableCollection<Volunteer> ToCollection => CollectionVolunteers;

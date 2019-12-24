@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Cygnus.Models;
 
 namespace Cygnus
 {
@@ -67,8 +68,8 @@ namespace Cygnus
                 text += volunteer.Name + "\n";
                 text += volunteer.BirthDate.ToString() + "\n";
                 text += volunteer.Address + "\n";
-                text += volunteer.Activities.Count.ToString() + "\n";
-                foreach (Activity activity in volunteer.Activities)
+                text += volunteer.Schedule.Activities.Count.ToString() + "\n";
+                foreach (Activity activity in volunteer.Schedule.Activities)
                 {
                     text += activity.Id + "\n";
                     text += activity.Location + "\n";

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Cygnus.Models;
 
 namespace Cygnus.Views
 {
@@ -29,7 +30,7 @@ namespace Cygnus.Views
             var freq = freqText.Text;
 
             Activity activity = new Activity(id, pos, date, turn, freq);
-            Volunteers.Instance.Add(activity);
+            Volunteers.CollectionVolunteers[0].Schedule.AddActivity(activity);
             //Activities.Instance.Add(activity);
         }
     }

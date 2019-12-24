@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cygnus.ViewModels;
 
-namespace Cygnus
+namespace Cygnus.Models
 {
     public class Volunteer : ObservableObject
     {
@@ -16,13 +16,43 @@ namespace Cygnus
                 RaisePropertyChangedEvent("Name");
             }
         }
-        public DateTime BirthDate { get; set; }
-        public string Address { get; set; }
-        public List<Activity> Activities { get; set; }
+
+        private DateTime _birthDate;
+        public DateTime BirthDate
+        {
+            get => _birthDate;
+            set
+            {
+                _birthDate = value;
+                RaisePropertyChangedEvent("BirthDate");
+            }
+        }
+
+        private string _address;
+        public string Address
+        {
+            get => _address;
+            set
+            {
+                _address = value;
+                RaisePropertyChangedEvent("Address");
+            }
+        }
+
+        private Schedule _schedule;
+        public Schedule Schedule
+        {
+            get => _schedule;
+            set
+            {
+                _schedule = value;
+                RaisePropertyChangedEvent("Schedule");
+            }
+        }
 
         public Volunteer()
-        {
-            Activities = new List<Activity>();
+        {    
+
         }
 
         public Volunteer(string name, DateTime birthDate, string address, List<Activity> activities)
@@ -30,12 +60,7 @@ namespace Cygnus
             Name = name;
             BirthDate = birthDate;
             Address = address;
-            Activities = activities;
-        }
-
-        public Activity FindActivity(string id)
-        {
-            return Activities.Find(x => x.Id == id);
+            _schedule = new Schedule(activities);
         }
 
         public override string ToString()

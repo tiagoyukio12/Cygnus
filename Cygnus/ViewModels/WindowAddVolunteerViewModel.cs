@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Cygnus.Models;
 
 namespace Cygnus.ViewModels
 {
@@ -24,14 +24,16 @@ namespace Cygnus.ViewModels
             _observableCollection = observableCollection;
             ((Button)window.FindName("addButton")).Content = "Editar";
             _selectedVolunteer = selectedVolunteer;
-            _editedVolunteer = new Volunteer();
-            _editedVolunteer.Name = selectedVolunteer.Name;
-            _editedVolunteer.Address = selectedVolunteer.Address;
-            _editedVolunteer.BirthDate = new DateTime(selectedVolunteer.BirthDate.ToBinary());
+            _editedVolunteer = new Volunteer
+            {
+                Name = selectedVolunteer.Name,
+                Address = selectedVolunteer.Address,
+                BirthDate = new DateTime(selectedVolunteer.BirthDate.ToBinary())
+            };
             _isNewVolunteer = false;
         }
 
-        private Window _window;
+        private readonly Window _window;
 
         private ObservableCollection<Volunteer> _observableCollection;
         public ObservableCollection<Volunteer> ObservableCollection
@@ -66,7 +68,7 @@ namespace Cygnus.ViewModels
             }
         }
 
-        private bool _isNewVolunteer;
+        private readonly bool _isNewVolunteer;
 
         public ICommand AddCommand
         {

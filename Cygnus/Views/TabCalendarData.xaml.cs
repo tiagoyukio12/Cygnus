@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Cygnus.Models;
+using Cygnus.ViewModels;
+using System;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -9,25 +11,17 @@ namespace Cygnus.Views
     /// </summary>
     public partial class TabCalendarData : UserControl
     {
-        readonly int currentYear = 2019;
-        readonly int currentMonth = 11;
-
         public TabCalendarData()
         {
             InitializeComponent();
-            CreateCalendar();
+            CreateColumns();
+            DataContext = new TabCalendarViewModel();
         }
 
-        /// <summary>
-        /// Creates daily columns for monthly calendar, and populates with events for each volunteer
-        /// </summary>
-        public void CreateCalendar()
+        public void CreateColumns()
         {
-            // Remove old items
-            dataGrid.Items.Clear();
-            dataGrid.Columns.Clear();
-
-            int numDays = DateTime.DaysInMonth(currentYear, currentMonth);
+            DateTime _currentMonth = new DateTime(2019, 11, 1);  // TODO: Create current month control
+            int daysInMonth = DateTime.DaysInMonth(_currentMonth.Year, _currentMonth.Month);
 
             DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
             {
@@ -36,9 +30,9 @@ namespace Cygnus.Views
             };
             dataGrid.Columns.Add(dataGridTextColumn);
 
-            for (int i = 0; i < numDays; i++)
+            for (int i = 0; i < daysInMonth; i++)
             {
-                var day = new DateTime(currentYear, currentMonth, i + 1);
+                var day = new DateTime(_currentMonth.Year, _currentMonth.Month, i + 1);
 
                 var culture = new System.Globalization.CultureInfo("pt-BR");
                 var week_day = culture.DateTimeFormat.GetDayName(day.DayOfWeek).Substring(0, 3);
@@ -48,53 +42,19 @@ namespace Cygnus.Views
                 DataGridTextColumn columnT3 = new DataGridTextColumn();
 
                 columnT1.Header = week_day + " - D" + (i + 1) + " - T1";
-                columnT1.Binding = new Binding(string.Format("Turns[{0}]", 3 * i));
+                columnT1.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i));
                 columnT1.CanUserSort = false;
                 dataGrid.Columns.Add(columnT1);
 
                 columnT2.Header = week_day + " - D" + (i + 1) + " - T2";
-                columnT2.Binding = new Binding(string.Format("Turns[{0}]", 3 * i + 1));
+                columnT2.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 1));
                 columnT2.CanUserSort = false;
                 dataGrid.Columns.Add(columnT2);
 
                 columnT3.Header = week_day + " - D" + (i + 1) + " - T3";
-                columnT3.Binding = new Binding(string.Format("Turns[{0}]", 3 * i + 2));
+                columnT3.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 2));
                 columnT3.CanUserSort = false;
                 dataGrid.Columns.Add(columnT3);
-            }
-
-            foreach (Volunteer volunteer in Volunteers.Instance.ToCollection)
-            {
-                CalendarBinding calendarBinding = new CalendarBinding(volunteer.Name, numDays, volunteer);
-                foreach (Activity activity in volunteer.Activities)
-                {
-                    DateTime activityDate = activity.StartDate;
-                    if (activityDate.Year == currentYear && activityDate.Month == currentMonth)
-                    {
-                        int turn = activity.Turn;
-                        calendarBinding.Turns[3 * activityDate.Day + turn - 4] = activity.ToString();
-                    }
-                }
-                dataGrid.Items.Add(calendarBinding);
-            }
-        }
-
-        private void DataGridHeader_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (!(e.OriginalSource is TextBlock))
-                return;
-            String id = ((TextBlock)e.OriginalSource).Text;
-            Volunteer owner = ((CalendarBinding)dataGrid.SelectedItem).Owner;
-            Activity activity = owner.FindActivity(id);
-            if (activity != null)
-            {
-                WindowEditActivity windowEditActivity = new WindowEditActivity(owner, activity);
-
-                windowEditActivity.Show();
-                windowEditActivity.Closed += (s, eventarg) =>
-                {
-                    CreateCalendar();
-                };
             }
         }
 

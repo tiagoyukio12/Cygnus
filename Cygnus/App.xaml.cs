@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Cygnus.Models;
 
 namespace Cygnus
 {
@@ -15,5 +16,15 @@ namespace Cygnus
             ObservableCollection<Volunteer> volunteers = Volunteers.Instance.ToCollection;
             volunteersIO.WriteVolunteers(new List<Volunteer>(volunteers));
         }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            // Load volunteers
+            FileIO volunteersIO = new FileIO("volunteers.dat");
+            List<Volunteer> volunteers = volunteersIO.ReadVolunteers();
+            Volunteers.Instance.Add(volunteers);
+        }
+        
     }
 }

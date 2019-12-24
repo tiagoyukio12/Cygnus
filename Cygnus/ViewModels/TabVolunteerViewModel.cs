@@ -1,8 +1,6 @@
-﻿using Cygnus.Models;
+﻿using System.Windows.Input;
+using Cygnus.Models;
 using Cygnus.Views;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace Cygnus.ViewModels
 {
@@ -42,14 +40,11 @@ namespace Cygnus.ViewModels
         }
         private void EditVolunteer()
         {
-            WindowAddVolunteer windowAddVolunteer = new WindowAddVolunteer(_observableCollection, _selectedVolunteer);
-            windowAddVolunteer.Show();
-            windowAddVolunteer.Closed += (s, eventarg) =>
+            if (_selectedVolunteer != null)
             {
-                Volunteer foo = new Volunteer();
-                ObservableCollection.Add(foo);
-                ObservableCollection.Remove(foo);
-            };
+                WindowAddVolunteer windowAddVolunteer = new WindowAddVolunteer(_observableCollection, _selectedVolunteer);
+                windowAddVolunteer.Show();
+            }
         }
 
         public ICommand AddVolunteerCommand
@@ -60,11 +55,6 @@ namespace Cygnus.ViewModels
         {
             WindowAddVolunteer windowAddVolunteer = new WindowAddVolunteer(_observableCollection);
             windowAddVolunteer.Show();
-            windowAddVolunteer.Closed += (s, eventarg) =>
-            {
-                //ObservableCollection = new ObservableCollection<Volunteer>();
-                ObservableCollection.Add(new Volunteer("foo", new System.DateTime(), "foo1", new List<Activity>()));
-            };
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Cygnus.Models;
 using Cygnus.ViewModels;
 
 namespace Cygnus.Views
