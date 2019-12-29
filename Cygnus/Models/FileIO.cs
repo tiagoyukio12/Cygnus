@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Cygnus.Models;
 
-namespace Cygnus
+namespace Cygnus.Models
 {
     class FileIO
     {

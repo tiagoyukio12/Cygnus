@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Cygnus.ViewModels;
 
@@ -13,6 +14,8 @@ namespace Cygnus.Models
             _activities.OrderBy(i => i.StartDate);
             _currMonth = new DateTime(2019, 11, 1);
             _monthSchedule = GetMonthSchedule(_currMonth);
+
+            _activities.CollectionChanged += ActivitiesChanged;
         }
 
         private TrulyObservableCollection<Activity> _activities;
@@ -23,7 +26,16 @@ namespace Cygnus.Models
             {
                 _activities = value;
                 RaisePropertyChangedEvent("Activities");
+                _monthSchedule = GetMonthSchedule(_currMonth);
+                RaisePropertyChangedEvent("MonthSchedule");
             }
+        }
+
+        private void ActivitiesChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            RaisePropertyChangedEvent("Activities");
+            _monthSchedule = GetMonthSchedule(_currMonth);
+            RaisePropertyChangedEvent("MonthSchedule");
         }
 
         private DateTime _currMonth;
