@@ -4,11 +4,18 @@ using System.IO;
 
 namespace Cygnus.Models
 {
+    /// <summary>
+    /// Read and write volunteers and activities data.
+    /// </summary>
     class FileIO
     {
         readonly string FilePath;
         readonly string AlternativePath;
 
+        /// <summary>
+        /// Creates file path to save file in Documents and current program folders.
+        /// </summary>
+        /// <param name="Name">Name of the save file.</param>
         public FileIO(string Name)
         {
             string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -18,7 +25,25 @@ namespace Cygnus.Models
             AlternativePath = Path.Combine(currPath, Name);
         }
 
-
+        /// <summary>
+        /// Tries to read save file from Documents folder. If it doesn't exist, reads from current program folder.
+        /// </summary>
+        /// <remarks>
+        /// Save file has following structure:
+        /// Number of volunteers
+        ///     Name of volunteer
+        ///     Birthday of volunteer
+        ///     Address of volunteer
+        ///     Number of activities
+        ///         ID of activity
+        ///         Location of activity
+        ///         Starting date of activity
+        ///         Turn of activity
+        ///         Frequency of activity
+        ///         (Remaining activities from volunteer)
+        ///     (Remaining volunteers)
+        /// </remarks>
+        /// <returns>List of saved volunteers and their activities.</returns>
         public List<Volunteer> ReadVolunteers()
         {
             string path = FilePath;
@@ -53,6 +78,10 @@ namespace Cygnus.Models
             return volunteers;
         }
 
+        /// <summary>
+        /// Writes to save file in current folder if it exists. Else, writes to Documents folder.
+        /// </summary>
+        /// <param name="volunteers">List of volunteers to be written.</param>
         public void WriteVolunteers(List<Volunteer> volunteers)
         {
             string path = FilePath;

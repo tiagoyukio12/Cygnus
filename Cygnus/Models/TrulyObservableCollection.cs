@@ -6,6 +6,10 @@ using System.ComponentModel;
 
 namespace Cygnus.Models
 {
+    /// <summary>
+    /// This class represents an observable collection which correctly notifies changes in its elements.
+    /// </summary>
+    /// <typeparam name="T">Type of the elements in the collection.</typeparam>
     public sealed class TrulyObservableCollection<T> : ObservableCollection<T>
     where T : INotifyPropertyChanged
     {

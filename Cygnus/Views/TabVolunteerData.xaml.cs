@@ -1,5 +1,5 @@
-﻿using System.Windows.Controls;
-using Cygnus.ViewModels;
+﻿using Cygnus.ViewModels;
+using System.Windows.Controls;
 
 namespace Cygnus.Views
 {

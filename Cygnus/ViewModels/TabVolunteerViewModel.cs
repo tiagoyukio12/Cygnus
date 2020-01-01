@@ -1,6 +1,6 @@
-﻿using System.Windows.Input;
-using Cygnus.Models;
+﻿using Cygnus.Models;
 using Cygnus.Views;
+using System.Windows.Input;
 
 namespace Cygnus.ViewModels
 {

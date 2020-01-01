@@ -47,9 +47,9 @@ namespace Cygnus.ViewModels
             if (_selectedCell != null)
             {
                 var cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
-                DataGridCell dataGridCell = (DataGridCell) cellContent.Parent;
+                DataGridCell dataGridCell = (DataGridCell)cellContent.Parent;
                 string id = ((TextBlock)dataGridCell.Content).Text;
-                Volunteer activityOwner = (Volunteer) _selectedCell.Item;
+                Volunteer activityOwner = (Volunteer)_selectedCell.Item;
                 Activity selectedActivity = activityOwner.Schedule.FindActivity(id);
                 WindowEditActivity windowEditActivity = new WindowEditActivity(activityOwner, selectedActivity);
                 windowEditActivity.Show();

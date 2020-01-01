@@ -1,17 +1,25 @@
-﻿using System;
+﻿using Cygnus.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Cygnus.ViewModels;
 
 namespace Cygnus.Models
 {
+    /// <summary>
+    /// Schedule of activities of a volunteer. Contains monthly schedule used as binding for calendar tab.
+    /// </summary>
     public class Schedule : ObservableObject
     {
+        /// <summary>
+        /// Sort activities list into an <c>TrulyObservableCollection</c>.
+        /// </summary>
+        /// <param name="activities">List of volunteer activities.</param>
         public Schedule(List<Activity> activities)
         {
             _activities = new TrulyObservableCollection<Activity>(activities);
             _activities.OrderBy(i => i.StartDate);
+            // TODO: get current month as parameter
             _currMonth = new DateTime(2019, 11, 1);
             _monthSchedule = GetMonthSchedule(_currMonth);
 
@@ -67,7 +75,7 @@ namespace Cygnus.Models
             int daysInMonth = DateTime.DaysInMonth(month.Year, month.Month);
             string[] monthSchedule = new string[3 * daysInMonth];
 
-            foreach(Activity activity in _activities)
+            foreach (Activity activity in _activities)
             {
                 DateTime activityDate = activity.StartDate;
                 if (activityDate > month.AddMonths(1))
@@ -91,7 +99,7 @@ namespace Cygnus.Models
             }
             _activities.Insert(i, activity);
             RaisePropertyChangedEvent("Activities");
-            
+
             if (activity.StartDate.Month == _currMonth.Month && activity.StartDate.Year == _currMonth.Year)
             {
                 _monthSchedule = GetMonthSchedule(_currMonth);
@@ -101,7 +109,7 @@ namespace Cygnus.Models
 
         public Activity FindActivity(string id)
         {
-            return (Activity) _activities.Single(x => x.Id == id);
+            return (Activity)_activities.Single(x => x.Id == id);
         }
     }
 }

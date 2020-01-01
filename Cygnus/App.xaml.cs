@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Cygnus.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using Cygnus.Models;
 
 namespace Cygnus
 {
@@ -25,6 +25,6 @@ namespace Cygnus
             List<Volunteer> volunteers = volunteersIO.ReadVolunteers();
             Volunteers.Instance.Add(volunteers);
         }
-        
+
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Cygnus.Models;
+using System;
 using System.Windows;
-using Cygnus.Models;
 
 namespace Cygnus.Views
 {
@@ -34,8 +34,8 @@ namespace Cygnus.Views
         {
             Activity.Id = idText.Text;
             Activity.Location = locationText.Text;
-            Activity.StartDate = (DateTime) birthCalendar.SelectedDate;
-            if ((bool) turnOneRadio.IsChecked)
+            Activity.StartDate = (DateTime)birthCalendar.SelectedDate;
+            if ((bool)turnOneRadio.IsChecked)
                 Activity.Turn = 1;
             else if ((bool)turnTwoRadio.IsChecked)
                 Activity.Turn = 2;

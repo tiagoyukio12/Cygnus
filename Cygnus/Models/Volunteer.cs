@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Cygnus.ViewModels;
+using System;
 using System.Collections.Generic;
-using Cygnus.ViewModels;
 
 namespace Cygnus.Models
 {
@@ -51,7 +51,7 @@ namespace Cygnus.Models
         }
 
         public Volunteer()
-        {    
+        {
 
         }
 

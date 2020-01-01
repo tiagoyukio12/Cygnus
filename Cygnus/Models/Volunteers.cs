@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace Cygnus.Models
 {
+    /// <summary>
+    /// This singleton class represents the collection of volunteers.
+    /// </summary>
     class Volunteers
     {
         private static Volunteers instance;

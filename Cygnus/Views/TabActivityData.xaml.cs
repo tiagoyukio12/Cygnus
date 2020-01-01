@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Cygnus.Models;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using Cygnus.Models;
 
 namespace Cygnus.Views
 {
