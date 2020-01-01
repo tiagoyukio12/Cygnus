@@ -6,6 +6,15 @@
         xmlns:local="clr-namespace:Cygnus.Views"
         mc:Ignorable="d"
         Title="Cygnus" Height="450" Width="800" WindowState="Maximized">
+    <Window.Resources>
+        <!-- Changes calendar style -->
+        <Style TargetType="{x:Type Border}">
+            <Setter Property="TextBlock.FontSize" Value="14" />
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <TabControl>
             <TabItem Header="Calendário">

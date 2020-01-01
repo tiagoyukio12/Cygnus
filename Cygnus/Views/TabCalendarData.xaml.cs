@@ -1,6 +1,7 @@
 ﻿using Cygnus.Models;
 using Cygnus.ViewModels;
 using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -30,30 +31,60 @@ namespace Cygnus.Views
             };
             dataGrid.Columns.Add(dataGridTextColumn);
 
+            Style style = new Style();
+            style.Setters.Add(new Setter(DataGridCell.HorizontalContentAlignmentProperty, HorizontalAlignment.Center));
+
             for (int i = 0; i < daysInMonth; i++)
             {
+                ColumnDefinition column = new ColumnDefinition
+                {
+                    Width = new System.Windows.GridLength(240)
+                };
+                SubGrid.ColumnDefinitions.Add(column);
                 var day = new DateTime(_currentMonth.Year, _currentMonth.Month, i + 1);
-
                 var culture = new System.Globalization.CultureInfo("pt-BR");
                 var week_day = culture.DateTimeFormat.GetDayName(day.DayOfWeek).Substring(0, 3);
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = week_day + " - D" + (i + 1),
+                    TextAlignment = System.Windows.TextAlignment.Center
+                };
+                Border border = new Border
+                {
+                    Child = textBlock
+                };
+                SubGrid.Children.Add(border);
+                Grid.SetColumn(border, i + 1);
 
-                DataGridTextColumn columnT1 = new DataGridTextColumn();
-                DataGridTextColumn columnT2 = new DataGridTextColumn();
-                DataGridTextColumn columnT3 = new DataGridTextColumn();
+                DataGridTextColumn columnT1 = new DataGridTextColumn
+                {
+                    Width = new DataGridLength(80)
+                };
+                DataGridTextColumn columnT2 = new DataGridTextColumn
+                {
+                    Width = new DataGridLength(80)
+                };
+                DataGridTextColumn columnT3 = new DataGridTextColumn
+                {
+                    Width = new DataGridLength(80)
+                };
 
-                columnT1.Header = week_day + " - D" + (i + 1) + " - T1";
+                columnT1.Header = "T1";
                 columnT1.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i));
                 columnT1.CanUserSort = false;
+                columnT1.HeaderStyle = style;
                 dataGrid.Columns.Add(columnT1);
 
-                columnT2.Header = week_day + " - D" + (i + 1) + " - T2";
+                columnT2.Header = "T2";
                 columnT2.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 1));
                 columnT2.CanUserSort = false;
+                columnT2.HeaderStyle = style;
                 dataGrid.Columns.Add(columnT2);
 
-                columnT3.Header = week_day + " - D" + (i + 1) + " - T3";
+                columnT3.Header = "T3";
                 columnT3.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 2));
                 columnT3.CanUserSort = false;
+                columnT3.HeaderStyle = style;
                 dataGrid.Columns.Add(columnT3);
             }
         }
