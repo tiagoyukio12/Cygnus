@@ -38,7 +38,7 @@ namespace Cygnus.Views
             {
                 ColumnDefinition column = new ColumnDefinition
                 {
-                    Width = new System.Windows.GridLength(240)
+                    Width = new GridLength(240)
                 };
                 SubGrid.ColumnDefinitions.Add(column);
                 var day = new DateTime(_currentMonth.Year, _currentMonth.Month, i + 1);
@@ -47,7 +47,7 @@ namespace Cygnus.Views
                 TextBlock textBlock = new TextBlock
                 {
                     Text = week_day + " - D" + (i + 1),
-                    TextAlignment = System.Windows.TextAlignment.Center
+                    TextAlignment = TextAlignment.Center
                 };
                 Border border = new Border
                 {

@@ -80,9 +80,13 @@ namespace Cygnus.Models
                 DateTime activityDate = activity.StartDate;
                 if (activityDate > month.AddMonths(1))
                     break;
-                if (activityDate.Month == month.Month && activityDate.Year == month.Year)
+                else
                 {
-                    monthSchedule[3 * activityDate.Day + activity.Turn - 4] += activity.ToString();
+                    List<DateTime> occurrences = activity.Frequency.GetMonthOccurrences(activity.StartDate, month);
+                    foreach (DateTime occurrence in occurrences)
+                    {
+                        monthSchedule[3 * occurrence.Day + activity.Turn - 4] += activity.ToString();
+                    }
                 }
             }
 
@@ -100,16 +104,17 @@ namespace Cygnus.Models
             _activities.Insert(i, activity);
             RaisePropertyChangedEvent("Activities");
 
-            if (activity.StartDate.Month == _currMonth.Month && activity.StartDate.Year == _currMonth.Year)
-            {
-                _monthSchedule = GetMonthSchedule(_currMonth);
-                RaisePropertyChangedEvent("MonthSchedule");
-            }
+            DateTime activityDate = activity.StartDate;
+            if (activityDate > _currMonth.AddMonths(1))
+                return;
+            RaisePropertyChangedEvent("MonthSchedule");
         }
 
         public Activity FindActivity(string id)
         {
-            return (Activity)_activities.Single(x => x.Id == id);
+            if (!String.IsNullOrEmpty(id))
+                return (Activity)_activities.Single(x => x.Id == id);
+            return null;
         }
     }
 }

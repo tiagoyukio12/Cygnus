@@ -8,7 +8,7 @@ namespace Cygnus.Models
     /// </summary>
     public class Activity : ObservableObject
     {
-        public Activity(string id, string pos, DateTime date, int turn, string freq)
+        public Activity(string id, string pos, DateTime date, int turn, Frequency freq)
         {
             _id = id;
             _location = pos;
@@ -69,9 +69,9 @@ namespace Cygnus.Models
             }
         }
 
-        private string _frequency;
+        private Frequency _frequency;
         /// <value>Frequency of occurrence of recurrent activity.</value>
-        public string Frequency
+        public Frequency Frequency
         {
             get => _frequency;
             set

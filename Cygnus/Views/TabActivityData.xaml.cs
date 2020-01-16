@@ -27,11 +27,101 @@ namespace Cygnus.Views
                 turn = 2;
             else if ((bool)turnThreeRadio.IsChecked)
                 turn = 3;
-            var freq = freqText.Text;
+            string freqType = freqCmb.Text;
+            string freqPeriod = "";
+            switch (freqCmb.SelectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    freqPeriod += (bool)sunChb.IsChecked ? 'T' : 'F';
+                    freqPeriod += (bool)monChb.IsChecked ? 'T' : 'F';
+                    freqPeriod += (bool)tueChb.IsChecked ? 'T' : 'F';
+                    freqPeriod += (bool)wedChb.IsChecked ? 'T' : 'F';
+                    freqPeriod += (bool)thuChb.IsChecked ? 'T' : 'F';
+                    freqPeriod += (bool)friChb.IsChecked ? 'T' : 'F';
+                    freqPeriod += (bool)satChb.IsChecked ? 'T' : 'F';
+                    break;
+                case 2:
+                    if (date != null)
+                    {
+                        switch (monthDayCmb.SelectedIndex)
+                        {
+                            case 0:
+                                freqPeriod = "D" + date.Day;
+                                break;
+                            case 1:
+                                int dayOfWeekEnum = (int) date.DayOfWeek;
+                                int weekOfMonth = (date.Day - 1) / 7 + 1;
+                                freqPeriod = "W" + weekOfMonth + "D" + dayOfWeekEnum;
+                                break;
+                        }
+                    }
+                    break;
+                case 3:
+                    freqPeriod = date.ToString();
+                    break;
+            }
 
-            Activity activity = new Activity(id, pos, date, turn, freq);
+            Activity activity = new Activity(id, pos, date, turn, new Frequency(freqType, freqPeriod));
             Volunteers.CollectionVolunteers[0].Schedule.AddActivity(activity);
-            //Activities.Instance.Add(activity);
+        }
+
+        private void FreqSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (periodText == null)
+                return;
+            switch (freqCmb.SelectedIndex)
+            {
+                case 0:
+                    periodText.Text = "";
+                    weekDayGrid.Visibility = Visibility.Hidden;
+                    monthDayCmb.Visibility = Visibility.Hidden;
+                    yearDayTxt.Visibility = Visibility.Hidden;
+                    break;
+                case 1:
+                    periodText.Text = "Dia(s):";
+                    weekDayGrid.Visibility = Visibility.Visible;
+                    monthDayCmb.Visibility = Visibility.Hidden;
+                    yearDayTxt.Visibility = Visibility.Hidden;
+                    break;
+                case 2:
+                    periodText.Text = "Dia:";
+                    weekDayGrid.Visibility = Visibility.Hidden;
+                    monthDayCmb.Visibility = Visibility.Visible;
+                    yearDayTxt.Visibility = Visibility.Hidden;
+                    if (dateCalendar.SelectedDate != null)
+                    {
+                        DateTime selectedDate = (DateTime)dateCalendar.SelectedDate;
+                        int dayOfMonth = selectedDate.Day;
+                        var culture = new System.Globalization.CultureInfo("pt-BR");
+                        string dayOfWeek = culture.DateTimeFormat.GetDayName(selectedDate.DayOfWeek);
+                        int weekOfMonth = (dayOfMonth - 1) / 7 + 1;
+
+                        monthDayCmb.Items.Clear();
+                        ComboBoxItem newItem = new ComboBoxItem
+                        {
+                            IsSelected = true,
+                            Content = "Mensalmente no dia " + dayOfMonth
+                        };
+                        monthDayCmb.Items.Add(newItem);
+                        newItem = new ComboBoxItem();
+                        if (selectedDate.DayOfWeek == DayOfWeek.Monday || selectedDate.DayOfWeek == DayOfWeek.Saturday)
+                            newItem.Content = "Todo " + weekOfMonth + "º " + dayOfWeek + " do mês";
+                        else
+                            newItem.Content = "Toda " + weekOfMonth + "ª " + dayOfWeek + " do mês";
+                        monthDayCmb.Items.Add(newItem);
+                    }
+                    break;
+                case 3:
+                    periodText.Text = "Dia:";
+                    weekDayGrid.Visibility = Visibility.Hidden;
+                    monthDayCmb.Visibility = Visibility.Hidden;
+                    yearDayTxt.Visibility = Visibility.Visible;
+                    if (dateCalendar.SelectedDate != null)
+                        yearDayTxt.Text = "Todos os anos no dia " + ((DateTime)dateCalendar.SelectedDate).ToString("dd/MM");
+                    break;
+            }
         }
     }
 }

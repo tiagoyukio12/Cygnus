@@ -39,7 +39,8 @@ namespace Cygnus.Models
         ///         Location of activity
         ///         Starting date of activity
         ///         Turn of activity
-        ///         Frequency of activity
+        ///         Type of recurrence of activity
+        ///         Period of recurrence of activity
         ///         (Remaining activities from volunteer)
         ///     (Remaining volunteers)
         /// </remarks>
@@ -68,8 +69,9 @@ namespace Cygnus.Models
                         string location = sr.ReadLine();
                         DateTime startDate = Convert.ToDateTime(sr.ReadLine());
                         int turn = Convert.ToInt32(sr.ReadLine());
-                        string frequency = sr.ReadLine();
-
+                        string freqType = sr.ReadLine();
+                        string freqPeriod = sr.ReadLine();
+                        Frequency frequency = new Frequency(freqType, freqPeriod);
                         activities.Add(new Activity(id, location, startDate, turn, frequency));
                     }
                     volunteers.Add(new Volunteer(name, birthDate, address, activities));
@@ -103,7 +105,8 @@ namespace Cygnus.Models
                     text += activity.Location + "\n";
                     text += activity.StartDate.ToString() + "\n";
                     text += activity.Turn.ToString() + "\n";
-                    text += activity.Frequency + "\n";
+                    text += activity.Frequency.Type + "\n";
+                    text += activity.Frequency.Period + "\n";
                 }
                 outputFile.Write(text);
             }

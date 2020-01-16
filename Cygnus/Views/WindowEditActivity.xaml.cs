@@ -27,7 +27,7 @@ namespace Cygnus.Views
                 turnTwoRadio.IsChecked = true;
             else if (Activity.Turn == 3)
                 turnThreeRadio.IsChecked = true;
-            frequencyText.Text = Activity.Frequency;
+            frequencyText.Text = Activity.Frequency.Type;
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
@@ -41,7 +41,7 @@ namespace Cygnus.Views
                 Activity.Turn = 2;
             else if ((bool)turnThreeRadio.IsChecked)
                 Activity.Turn = 3;
-            Activity.Frequency = frequencyText.Text;
+            Activity.Frequency.Type = frequencyText.Text; // TODO: Fix me
             Close();
         }
 

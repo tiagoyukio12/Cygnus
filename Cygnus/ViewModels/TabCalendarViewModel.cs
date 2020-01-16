@@ -51,8 +51,11 @@ namespace Cygnus.ViewModels
                 string id = ((TextBlock)dataGridCell.Content).Text;
                 Volunteer activityOwner = (Volunteer)_selectedCell.Item;
                 Activity selectedActivity = activityOwner.Schedule.FindActivity(id);
-                WindowEditActivity windowEditActivity = new WindowEditActivity(activityOwner, selectedActivity);
-                windowEditActivity.Show();
+                if (selectedActivity != null)
+                {
+                    WindowEditActivity windowEditActivity = new WindowEditActivity(activityOwner, selectedActivity);
+                    windowEditActivity.Show();
+                }
             }
         }
     }

@@ -18,6 +18,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock  Margin="10,10,10,10" Grid.ColumnSpan="2" >Código:</TextBlock>
         <TextBox x:Name="idText" Grid.Column="2" Margin="10,10,10,10" />
@@ -26,7 +27,7 @@
         <TextBox x:Name="posText" Grid.Row="1" Grid.Column="2" Margin="10,10,10,10" />
 
         <TextBlock Grid.Row="2" Margin="10,10,10,10" Grid.ColumnSpan="2" >Data de Início:</TextBlock>
-        <Calendar x:Name="dateCalendar" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="2"/>
+        <Calendar x:Name="dateCalendar" SelectedDatesChanged="FreqSelectionChanged" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="2"/>
 
         <TextBlock Grid.Row="3" Margin="10,10,10,10" Grid.ColumnSpan="2" >Turno:</TextBlock>
         <RadioButton x:Name="turnOneRadio" Content="1" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
@@ -34,8 +35,39 @@
         <RadioButton x:Name="turnThreeRadio" Content="3" Grid.Column="2" HorizontalAlignment="Left" Margin="90,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
 
         <TextBlock Grid.Row="4" Margin="10,10,10,10" Grid.ColumnSpan="2" >Frequência:</TextBlock>
-        <TextBox x:Name="freqText" Grid.Row="4" Grid.Column="2" Margin="10,10,10,10" />
+        <ComboBox x:Name="freqCmb" SelectionChanged="FreqSelectionChanged" Grid.Row="4" Grid.Column="2" Margin="10,10,10,10">
+            <ComboBoxItem IsSelected="True">Não Repete</ComboBoxItem>
+            <ComboBoxItem>Semanal</ComboBoxItem>
+            <ComboBoxItem>Mensal</ComboBoxItem>
+            <ComboBoxItem>Anual</ComboBoxItem>
+        </ComboBox>
 
-        <Button Content="Adicionar Atividade" Click="AddActivity_Click" Grid.Column="2" HorizontalAlignment="Left" Margin="581,0,0,0" Grid.Row="5" VerticalAlignment="Center"/>
+        <TextBlock x:Name="periodText" Grid.Row="5" Margin="10,10,10,10" Grid.ColumnSpan="2"/>
+        <Grid x:Name="weekDayGrid" Visibility="Hidden" Grid.Row="5" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <CheckBox x:Name="sunChb" Grid.Row="0" Grid.Column="0" Margin="10,10,10,10">Domingo</CheckBox>
+            <CheckBox x:Name="monChb" Grid.Row="0" Grid.Column="1" Margin="10,10,10,10">Segunda</CheckBox>
+            <CheckBox x:Name="tueChb" Grid.Row="0" Grid.Column="2" Margin="10,10,10,10">Terça</CheckBox>
+            <CheckBox x:Name="wedChb" Grid.Row="0" Grid.Column="3" Margin="10,10,10,10">Quarta</CheckBox>
+            <CheckBox x:Name="thuChb" Grid.Row="0" Grid.Column="4" Margin="10,10,10,10">Quinta</CheckBox>
+            <CheckBox x:Name="friChb" Grid.Row="0" Grid.Column="5" Margin="10,10,10,10">Sexta</CheckBox>
+            <CheckBox x:Name="satChb" Grid.Row="0" Grid.Column="6" Margin="10,10,10,10">Sábado</CheckBox>
+        </Grid>
+        <ComboBox x:Name="monthDayCmb" Visibility="Hidden" Grid.Row="5" Grid.Column="2" Margin="10,10,10,10"/>
+        <TextBlock x:Name="yearDayTxt" Visibility="Hidden" Grid.Row="5" Grid.Column="2" Margin="10,10,10,10" Grid.ColumnSpan="2"/>
+
+
+        <Button Content="Adicionar Atividade" Click="AddActivity_Click" Grid.Column="2" HorizontalAlignment="Left" Margin="581,0,0,0" Grid.Row="6" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>
