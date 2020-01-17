@@ -51,7 +51,7 @@ namespace Cygnus.Views
                                 freqPeriod = "D" + date.Day;
                                 break;
                             case 1:
-                                int dayOfWeekEnum = (int) date.DayOfWeek;
+                                int dayOfWeekEnum = (int)date.DayOfWeek;
                                 int weekOfMonth = (date.Day - 1) / 7 + 1;
                                 freqPeriod = "W" + weekOfMonth + "D" + dayOfWeekEnum;
                                 break;

@@ -1,17 +1,26 @@
 ﻿using Cygnus.Models;
 using Cygnus.Views;
 using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Cygnus.ViewModels
 {
     class TabCalendarViewModel : ObservableObject
     {
-        public TabCalendarViewModel()
+        public TabCalendarViewModel(DataGrid dataGrid, Grid subGrid)
         {
+            _monthText = DateTime.Now.Month.ToString();
+            _yearText = DateTime.Now.Year.ToString();
+            _dataGrid = dataGrid;
+            _subGrid = subGrid;
             _observableCollection = Volunteers.CollectionVolunteers;
-            _currentMonth = new DateTime(2019, 11, 1);
+            int month = Int32.Parse(_monthText);
+            int year = Int32.Parse(_yearText);
+            _currentMonth = new DateTime(year, month, 1);
+            CreateColumns();
         }
 
         private DateTime _currentMonth;
@@ -38,10 +47,49 @@ namespace Cygnus.ViewModels
             }
         }
 
+        private string _monthText;
+        public string MonthText
+        {
+            get => _monthText;
+            set
+            {
+                _monthText = value;
+                RaisePropertyChangedEvent("MonthText");
+            }
+        }
+
+        private string _yearText;
+        public string YearText
+        {
+            get => _yearText;
+            set
+            {
+                _yearText = value;
+                RaisePropertyChangedEvent("YearText");
+            }
+        }
+
+        public ICommand UpdateMonthCommand
+        {
+            get { return new DelegateCommand(UpdateMonth); }
+        }
+        private void UpdateMonth()
+        {
+            int month = Int32.Parse(_monthText);
+            int year = Int32.Parse(_yearText);
+            _currentMonth = new DateTime(year, month, 1);
+            foreach (Volunteer volunteer in _observableCollection)
+            {
+                volunteer.Schedule.CurrMonth = _currentMonth;
+            }
+            CreateColumns();
+        }
+
         public ICommand EditActivityCommand
         {
             get { return new DelegateCommand(EditActivity); }
         }
+
         private void EditActivity()
         {
             if (_selectedCell != null)
@@ -56,6 +104,124 @@ namespace Cygnus.ViewModels
                     WindowEditActivity windowEditActivity = new WindowEditActivity(activityOwner, selectedActivity);
                     windowEditActivity.Show();
                 }
+            }
+        }
+
+        private DataGrid _dataGrid;
+        public DataGrid DataGrid
+        {
+            get => _dataGrid;
+            set
+            {
+                _dataGrid = value;
+                RaisePropertyChangedEvent("DataGrid");
+            }
+        }
+
+        private Grid _subGrid;
+        public Grid SubGrid
+        {
+            get => _subGrid;
+            set
+            {
+                _subGrid = value;
+                RaisePropertyChangedEvent("SubGrid");
+            }
+        }
+
+        public void CreateColumns()
+        {
+            _dataGrid.Columns.Clear();
+            _subGrid.ColumnDefinitions.Clear();
+            _subGrid.Children.Clear();
+
+            ColumnDefinition firstColumn = new ColumnDefinition
+            {
+                Width = new GridLength(85)
+            };
+            _subGrid.ColumnDefinitions.Add(firstColumn);
+
+            int daysInMonth = DateTime.DaysInMonth(_currentMonth.Year, _currentMonth.Month);
+
+            DataGridTextColumn dataGridTextColumn = new DataGridTextColumn
+            {
+                Header = "Voluntário",
+                Binding = new Binding("Name")
+            };
+            _dataGrid.Columns.Add(dataGridTextColumn);
+
+            Style style = new Style();
+            style.Setters.Add(new Setter(DataGridCell.HorizontalContentAlignmentProperty, HorizontalAlignment.Center));
+
+            for (int i = 0; i < daysInMonth; i++)
+            {
+                ColumnDefinition column = new ColumnDefinition
+                {
+                    Width = new GridLength(240)
+                };
+                _subGrid.ColumnDefinitions.Add(column);
+                var day = new DateTime(_currentMonth.Year, _currentMonth.Month, i + 1);
+                var culture = new System.Globalization.CultureInfo("pt-BR");
+                var week_day = culture.DateTimeFormat.GetDayName(day.DayOfWeek).Substring(0, 3);
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = week_day + " - D" + (i + 1),
+                    TextAlignment = TextAlignment.Center
+                };
+                Border border = new Border
+                {
+                    Child = textBlock
+                };
+                _subGrid.Children.Add(border);
+                Grid.SetColumn(border, i + 1);
+
+                DataGridTextColumn columnT1 = new DataGridTextColumn
+                {
+                    Width = new DataGridLength(80)
+                };
+                DataGridTextColumn columnT2 = new DataGridTextColumn
+                {
+                    Width = new DataGridLength(80)
+                };
+                DataGridTextColumn columnT3 = new DataGridTextColumn
+                {
+                    Width = new DataGridLength(80)
+                };
+
+                columnT1.Header = "T1";
+                columnT1.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i));
+                columnT1.CanUserSort = false;
+                columnT1.HeaderStyle = style;
+                _dataGrid.Columns.Add(columnT1);
+
+                columnT2.Header = "T2";
+                columnT2.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 1));
+                columnT2.CanUserSort = false;
+                columnT2.HeaderStyle = style;
+                _dataGrid.Columns.Add(columnT2);
+
+                columnT3.Header = "T3";
+                columnT3.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 2));
+                columnT3.CanUserSort = false;
+                columnT3.HeaderStyle = style;
+                _dataGrid.Columns.Add(columnT3);
+            }
+        }
+
+        /// <summary>
+        /// Data binding class for DataGrid in calendar tab
+        /// </summary>
+        public class CalendarBinding
+        {
+            public string Name { get; set; }
+            public string[] Turns { get; set; }
+            public Volunteer Owner { get; set; }
+
+            public CalendarBinding(string name, int numDays, Volunteer owner)
+            {
+                Name = name;
+                Turns = new string[3 * numDays];
+                Owner = owner;
             }
         }
     }

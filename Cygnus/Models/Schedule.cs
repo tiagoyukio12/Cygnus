@@ -19,8 +19,8 @@ namespace Cygnus.Models
         {
             _activities = new TrulyObservableCollection<Activity>(activities);
             _activities.OrderBy(i => i.StartDate);
-            // TODO: get current month as parameter
-            _currMonth = new DateTime(2019, 11, 1);
+            DateTime now = DateTime.Now;
+            _currMonth = new DateTime(now.Year, now.Month, 1);
             _monthSchedule = GetMonthSchedule(_currMonth);
 
             _activities.CollectionChanged += ActivitiesChanged;

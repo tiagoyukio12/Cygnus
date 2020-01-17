@@ -49,7 +49,7 @@ namespace Cygnus.Models
                 return GetMonthlyOccurrences(startDate, month);
             if (_type == "Anual")
                 return GetYearlyOccurrences(startDate, month);
-            return null;
+            return new List<DateTime>();
         }
 
         private List<DateTime> GetWeeklyOccurrences(DateTime startDate, DateTime month)
@@ -93,7 +93,7 @@ namespace Cygnus.Models
                 {
                     int week_start = (Int32.Parse(_period[1].ToString()) - 1) * 7 + 1;
                     DateTime occurrence = new DateTime(month.Year, month.Month, week_start);
-                    DayOfWeek dayOfWeek = (DayOfWeek) Int32.Parse(_period.Substring(3));
+                    DayOfWeek dayOfWeek = (DayOfWeek)Int32.Parse(_period.Substring(3));
                     occurrence = occurrence.AddDays((dayOfWeek < occurrence.DayOfWeek ? 7 : 0) + dayOfWeek - occurrence.DayOfWeek);
                     occurrences.Add(occurrence);
                 }
