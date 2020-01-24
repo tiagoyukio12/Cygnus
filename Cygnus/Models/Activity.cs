@@ -8,12 +8,13 @@ namespace Cygnus.Models
     /// </summary>
     public class Activity : ObservableObject
     {
-        public Activity(string id, string pos, DateTime date, int turn, Frequency freq)
+        public Activity(string id, string pos, DateTime date, int turn, int[] time, Frequency freq)
         {
             _id = id;
             _location = pos;
             _startDate = date;
             _turn = turn;
+            _time = time;
             _frequency = freq;
         }
 
@@ -69,6 +70,18 @@ namespace Cygnus.Models
             }
         }
 
+        private int[] _time;
+        /// <value>Start and end time of the activity.</value>
+        public int[] Time
+        {
+            get => _time;
+            set
+            {
+                _time = value;
+                RaisePropertyChangedEvent("Time");
+            }
+        }
+
         private Frequency _frequency;
         /// <value>Frequency of occurrence of recurrent activity.</value>
         public Frequency Frequency
@@ -85,7 +98,11 @@ namespace Cygnus.Models
 
         public override string ToString()
         {
-            return this.Id.ToString();
+            string time = _time[0].ToString() + ":";
+            time += (_time[1] < 10) ? "0" + _time[1].ToString() : _time[1].ToString();
+            time += " - " + _time[2].ToString() + ":";
+            time += (_time[3] < 10) ? "0" + _time[3].ToString() : _time[3].ToString();
+            return this.Id.ToString() + "\n" + time;
         }
     }
 }

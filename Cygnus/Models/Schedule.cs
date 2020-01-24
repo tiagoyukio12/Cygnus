@@ -85,6 +85,8 @@ namespace Cygnus.Models
                     List<DateTime> occurrences = activity.Frequency.GetMonthOccurrences(activity.StartDate, month);
                     foreach (DateTime occurrence in occurrences)
                     {
+                        if (!string.IsNullOrEmpty(monthSchedule[3 * occurrence.Day + activity.Turn - 4]))
+                            monthSchedule[3 * occurrence.Day + activity.Turn - 4] += "\n";
                         monthSchedule[3 * occurrence.Day + activity.Turn - 4] += activity.ToString();
                     }
                 }

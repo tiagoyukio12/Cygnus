@@ -63,7 +63,9 @@ namespace Cygnus.Views
                     break;
             }
 
-            Activity activity = new Activity(id, pos, date, turn, new Frequency(freqType, freqPeriod));
+            int[] time = new int[4];
+
+            Activity activity = new Activity(id, pos, date, turn, time, new Frequency(freqType, freqPeriod));
             Volunteers.CollectionVolunteers[0].Schedule.AddActivity(activity);
         }
 

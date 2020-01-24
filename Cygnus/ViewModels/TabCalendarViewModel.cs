@@ -1,10 +1,12 @@
 ﻿using Cygnus.Models;
 using Cygnus.Views;
 using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Cygnus.ViewModels
 {
@@ -96,7 +98,7 @@ namespace Cygnus.ViewModels
             {
                 var cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
                 DataGridCell dataGridCell = (DataGridCell)cellContent.Parent;
-                string id = ((TextBlock)dataGridCell.Content).Text;
+                string id = ((TextBlock)dataGridCell.Content).Text.Substring(0, 4);
                 Volunteer activityOwner = (Volunteer)_selectedCell.Item;
                 Activity selectedActivity = activityOwner.Schedule.FindActivity(id);
                 if (selectedActivity != null)
@@ -150,9 +152,14 @@ namespace Cygnus.ViewModels
             };
             _dataGrid.Columns.Add(dataGridTextColumn);
 
-            Style style = new Style();
-            style.Setters.Add(new Setter(DataGridCell.HorizontalContentAlignmentProperty, HorizontalAlignment.Center));
-
+            Style headerStyle = new Style();
+            Style cellStyle = new Style();
+            headerStyle.Setters.Add(new Setter
+            {
+                Property = DataGridCell.HorizontalContentAlignmentProperty, 
+                Value = HorizontalAlignment.Center
+            });
+            var converter = new BackGroundConverter();
             for (int i = 0; i < daysInMonth; i++)
             {
                 ColumnDefinition column = new ColumnDefinition
@@ -161,7 +168,7 @@ namespace Cygnus.ViewModels
                 };
                 _subGrid.ColumnDefinitions.Add(column);
                 var day = new DateTime(_currentMonth.Year, _currentMonth.Month, i + 1);
-                var culture = new System.Globalization.CultureInfo("pt-BR");
+                var culture = new CultureInfo("pt-BR");
                 var week_day = culture.DateTimeFormat.GetDayName(day.DayOfWeek).Substring(0, 3);
                 TextBlock textBlock = new TextBlock
                 {
@@ -191,19 +198,37 @@ namespace Cygnus.ViewModels
                 columnT1.Header = "T1";
                 columnT1.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i));
                 columnT1.CanUserSort = false;
-                columnT1.HeaderStyle = style;
+                columnT1.HeaderStyle = headerStyle;
+                columnT1.CellStyle = new Style(typeof(DataGridCell));
+                columnT1.CellStyle.Setters.Add(new Setter
+                {
+                    Property = DataGridCell.BackgroundProperty,
+                    Value = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i)) { Converter = converter }
+                });
                 _dataGrid.Columns.Add(columnT1);
 
                 columnT2.Header = "T2";
                 columnT2.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 1));
                 columnT2.CanUserSort = false;
-                columnT2.HeaderStyle = style;
+                columnT2.HeaderStyle = headerStyle;
+                columnT2.CellStyle = new Style(typeof(DataGridCell));
+                columnT2.CellStyle.Setters.Add(new Setter
+                {
+                    Property = DataGridCell.BackgroundProperty,
+                    Value = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 1)) { Converter = converter }
+                });
                 _dataGrid.Columns.Add(columnT2);
 
                 columnT3.Header = "T3";
                 columnT3.Binding = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 2));
                 columnT3.CanUserSort = false;
-                columnT3.HeaderStyle = style;
+                columnT3.HeaderStyle = headerStyle;
+                columnT3.CellStyle = new Style(typeof(DataGridCell));
+                columnT3.CellStyle.Setters.Add(new Setter
+                {
+                    Property = DataGridCell.BackgroundProperty,
+                    Value = new Binding(string.Format("Schedule.MonthSchedule[{0}]", 3 * i + 2)) { Converter = converter }
+                });
                 _dataGrid.Columns.Add(columnT3);
             }
         }
@@ -222,6 +247,28 @@ namespace Cygnus.ViewModels
                 Name = name;
                 Turns = new string[3 * numDays];
                 Owner = owner;
+            }
+        }
+
+        public class BackGroundConverter : IValueConverter
+        {
+
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value is string daySchedule)
+                {
+                    // TODO: Change daySchedule from string to new class for time checking
+                    if (daySchedule.Length > 20)
+                        return new SolidColorBrush(Colors.LightSalmon);
+                    if (daySchedule.Length > 3)
+                        return new SolidColorBrush(Colors.LightGreen);
+                }
+                return null;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
             }
         }
     }

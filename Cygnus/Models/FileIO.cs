@@ -69,10 +69,25 @@ namespace Cygnus.Models
                         string location = sr.ReadLine();
                         DateTime startDate = Convert.ToDateTime(sr.ReadLine());
                         int turn = Convert.ToInt32(sr.ReadLine());
+                        string timeLine = sr.ReadLine();
+                        int[] time = Array.ConvertAll(timeLine.Split(','), int.Parse);
+                        switch (turn)
+                        {
+                            case 1:
+                                time = new int[] { 7, 0, 9, 0 };
+                                break;
+                            case 2:
+                                time = new int[] { 12, 0, 13, 0 };
+                                break;
+                            case 3:
+                                time = new int[] { 15, 0, 18, 0 };
+                                break;
+                        }
                         string freqType = sr.ReadLine();
                         string freqPeriod = sr.ReadLine();
                         Frequency frequency = new Frequency(freqType, freqPeriod);
-                        activities.Add(new Activity(id, location, startDate, turn, frequency));
+
+                        activities.Add(new Activity(id, location, startDate, turn, time, frequency));
                     }
                     volunteers.Add(new Volunteer(name, birthDate, address, activities));
                 }
@@ -105,6 +120,7 @@ namespace Cygnus.Models
                     text += activity.Location + "\n";
                     text += activity.StartDate.ToString() + "\n";
                     text += activity.Turn.ToString() + "\n";
+                    text += string.Join(", ", activity.Time) + "\n";
                     text += activity.Frequency.Type + "\n";
                     text += activity.Frequency.Period + "\n";
                 }
