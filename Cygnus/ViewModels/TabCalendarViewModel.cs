@@ -46,7 +46,64 @@ namespace Cygnus.ViewModels
             {
                 _selectedCell = value;
                 RaisePropertyChangedEvent("SelectedCell");
+                if (_selectedCell.Column != null)
+                {
+                    var cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
+                    DataGridCell dataGridCell = (DataGridCell)cellContent.Parent;
+
+                    string cellText = ((TextBlock)dataGridCell.Content).Text;
+                    int positionOfNewLine = cellText.IndexOf("\n");
+                    string id = cellText.Substring(0, positionOfNewLine);
+
+                    Volunteer activityOwner = (Volunteer)_selectedCell.Item;
+                    Activity selectedActivity = activityOwner.Schedule.FindActivity(id);
+                    if (selectedActivity != null)
+                    {
+                        _idText = selectedActivity.Id;
+                        RaisePropertyChangedEvent("IdText");
+                        _posText = selectedActivity.Location;
+                        RaisePropertyChangedEvent("PosText");
+                    }
+                }
             }
+        }
+
+        private string _idText;
+        public string IdText
+        {
+            get => _idText;
+            set
+            {
+                _idText = value;
+                RaisePropertyChangedEvent("IdText");
+            }
+        }
+
+        private string _posText;
+        public string PosText
+        {
+            get => _posText;
+            set
+            {
+                _posText = value;
+                RaisePropertyChangedEvent("PosText");
+            }
+        }
+
+        public ICommand UpdateActivityCommand
+        {
+            get { return new DelegateCommand(UpdateActivity); }
+        }
+        private void UpdateActivity()
+        {
+            int month = Int32.Parse(_monthText);
+            int year = Int32.Parse(_yearText);
+            _currentMonth = new DateTime(year, month, 1);
+            foreach (Volunteer volunteer in _observableCollection)
+            {
+                volunteer.Schedule.CurrMonth = _currentMonth;
+            }
+            CreateColumns();
         }
 
         private string _monthText;
@@ -137,9 +194,11 @@ namespace Cygnus.ViewModels
             _subGrid.ColumnDefinitions.Clear();
             _subGrid.Children.Clear();
 
+            float turnColSize = 50;
+
             ColumnDefinition firstColumn = new ColumnDefinition
             {
-                Width = new GridLength(85)
+                Width = new GridLength(65)
             };
             _subGrid.ColumnDefinitions.Add(firstColumn);
 
@@ -156,7 +215,7 @@ namespace Cygnus.ViewModels
             Style cellStyle = new Style();
             headerStyle.Setters.Add(new Setter
             {
-                Property = DataGridCell.HorizontalContentAlignmentProperty, 
+                Property = DataGridCell.HorizontalContentAlignmentProperty,
                 Value = HorizontalAlignment.Center
             });
             var converter = new BackGroundConverter();
@@ -164,7 +223,7 @@ namespace Cygnus.ViewModels
             {
                 ColumnDefinition column = new ColumnDefinition
                 {
-                    Width = new GridLength(240)
+                    Width = new GridLength(3 * turnColSize)
                 };
                 _subGrid.ColumnDefinitions.Add(column);
                 var day = new DateTime(_currentMonth.Year, _currentMonth.Month, i + 1);
@@ -184,15 +243,15 @@ namespace Cygnus.ViewModels
 
                 DataGridTextColumn columnT1 = new DataGridTextColumn
                 {
-                    Width = new DataGridLength(80)
+                    Width = new DataGridLength(turnColSize)
                 };
                 DataGridTextColumn columnT2 = new DataGridTextColumn
                 {
-                    Width = new DataGridLength(80)
+                    Width = new DataGridLength(turnColSize)
                 };
                 DataGridTextColumn columnT3 = new DataGridTextColumn
                 {
-                    Width = new DataGridLength(80)
+                    Width = new DataGridLength(turnColSize)
                 };
 
                 columnT1.Header = "T1";
@@ -258,9 +317,9 @@ namespace Cygnus.ViewModels
                 if (value is string daySchedule)
                 {
                     // TODO: Change daySchedule from string to new class for time checking
-                    if (daySchedule.Length > 20)
+                    if (daySchedule.Length > 26)
                         return new SolidColorBrush(Colors.LightSalmon);
-                    if (daySchedule.Length > 3)
+                    if (daySchedule.Length > 13)
                         return new SolidColorBrush(Colors.LightGreen);
                 }
                 return null;

@@ -112,10 +112,10 @@ namespace Cygnus.Models
             RaisePropertyChangedEvent("MonthSchedule");
         }
 
-        public Activity FindActivity(string id)
+        public Activity FindActivity(string name)
         {
-            if (!String.IsNullOrEmpty(id))
-                return (Activity)_activities.Single(x => x.Id == id);
+            if (!String.IsNullOrEmpty(name))
+                return (Activity)_activities.Single(x => x.Name == name);
             return null;
         }
     }

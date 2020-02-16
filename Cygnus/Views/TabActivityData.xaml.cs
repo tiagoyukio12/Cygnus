@@ -1,5 +1,6 @@
 ﻿using Cygnus.Models;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -63,9 +64,12 @@ namespace Cygnus.Views
                     break;
             }
 
+            string name = "Atividade foo";
+            string description = "descrição";
+            List<string> attributes = new List<string>();
             int[] time = new int[4];
 
-            Activity activity = new Activity(id, pos, date, turn, time, new Frequency(freqType, freqPeriod));
+            Activity activity = new Activity(id, name, description, attributes, pos, date, turn, time, new Frequency(freqType, freqPeriod));
             Volunteers.CollectionVolunteers[0].Schedule.AddActivity(activity);
         }
 

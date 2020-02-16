@@ -1,5 +1,6 @@
 ﻿using Cygnus.ViewModels;
 using System;
+using System.Collections.Generic;
 
 namespace Cygnus.Models
 {
@@ -8,9 +9,12 @@ namespace Cygnus.Models
     /// </summary>
     public class Activity : ObservableObject
     {
-        public Activity(string id, string pos, DateTime date, int turn, int[] time, Frequency freq)
+        public Activity(string id, string name, string description, List<string> attributes, string pos, DateTime date, int turn, int[] time, Frequency freq)
         {
             _id = id;
+            _name = name;
+            _description = description;
+            _attributes = attributes;
             _location = pos;
             _startDate = date;
             _turn = turn;
@@ -28,6 +32,42 @@ namespace Cygnus.Models
                 // TODO: Check duplicate ID
                 _id = value;
                 RaisePropertyChangedEvent("Id");
+            }
+        }
+
+        private string _name;
+        /// <value>Name of activity.</value>
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                RaisePropertyChangedEvent("Name");
+            }
+        }
+
+        private string _description;
+        /// <value>Description of activity.</value>
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+                RaisePropertyChangedEvent("Description");
+            }
+        }
+
+        private List<string> _attributes;
+        /// <value>Description of activity.</value>
+        public List<string> Attributes
+        {
+            get => _attributes;
+            set
+            {
+                _attributes = value;
+                RaisePropertyChangedEvent("Attributes");
             }
         }
 
@@ -102,7 +142,7 @@ namespace Cygnus.Models
             time += (_time[1] < 10) ? "0" + _time[1].ToString() : _time[1].ToString();
             time += " - " + _time[2].ToString() + ":";
             time += (_time[3] < 10) ? "0" + _time[3].ToString() : _time[3].ToString();
-            return this.Id.ToString() + "\n" + time;
+            return this.Name.ToString() + "\n" + time;
         }
     }
 }

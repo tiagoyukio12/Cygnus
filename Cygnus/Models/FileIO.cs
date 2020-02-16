@@ -36,6 +36,10 @@ namespace Cygnus.Models
         ///     Address of volunteer
         ///     Number of activities
         ///         ID of activity
+        ///         Name of activity
+        ///         Description of activity
+        ///         Number of activity attributes
+        ///             Name of attribute
         ///         Location of activity
         ///         Starting date of activity
         ///         Turn of activity
@@ -66,6 +70,12 @@ namespace Cygnus.Models
                     for (int j = 0; j < numActivities; j++)
                     {
                         string id = sr.ReadLine();
+                        string nameActivity = sr.ReadLine();
+                        string description = sr.ReadLine();
+                        int numAttributes = Convert.ToInt32(sr.ReadLine());
+                        List<string> attributes = new List<string>();
+                        for (int k = 0; k < numAttributes; k++)
+                            attributes.Add(sr.ReadLine());
                         string location = sr.ReadLine();
                         DateTime startDate = Convert.ToDateTime(sr.ReadLine());
                         int turn = Convert.ToInt32(sr.ReadLine());
@@ -87,7 +97,7 @@ namespace Cygnus.Models
                         string freqPeriod = sr.ReadLine();
                         Frequency frequency = new Frequency(freqType, freqPeriod);
 
-                        activities.Add(new Activity(id, location, startDate, turn, time, frequency));
+                        activities.Add(new Activity(id, nameActivity, description, attributes, location, startDate, turn, time, frequency));
                     }
                     volunteers.Add(new Volunteer(name, birthDate, address, activities));
                 }
@@ -117,6 +127,13 @@ namespace Cygnus.Models
                 foreach (Activity activity in volunteer.Schedule.Activities)
                 {
                     text += activity.Id + "\n";
+                    text += activity.Name + "\n";
+                    text += activity.Description + "\n";
+                    text += activity.Attributes.Count.ToString() + "\n";
+                    foreach (string attribute in activity.Attributes)
+                    {
+                        text += attribute + "\n";
+                    }
                     text += activity.Location + "\n";
                     text += activity.StartDate.ToString() + "\n";
                     text += activity.Turn.ToString() + "\n";
