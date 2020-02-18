@@ -70,13 +70,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock  Margin="10,10,10,10">Código:</TextBlock>
-            <TextBox x:Name="idText" Grid.Row="1" Margin="10,10,10,10" Text="{Binding IdText}" />
+            <TextBox x:Name="idText" Grid.Row="1" Margin="10,10,10,10" Text="{Binding SelectedActivity.Id}" />
 
             <TextBlock Grid.Row="2" Margin="10,10,10,10">Localização:</TextBlock>
-            <TextBox x:Name="posText" Grid.Row="3" Margin="10,10,10,10" Text="{Binding PosText}"/>
+            <TextBox x:Name="posText" Grid.Row="3" Margin="10,10,10,10" Text="{Binding SelectedActivity.Location}"/>
 
             <TextBlock Grid.Row="4" Margin="10,10,10,10">Data de Início:</TextBlock>
-            <Calendar x:Name="dateCalendar" SelectedDatesChanged="FreqSelectionChanged" HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Center" Grid.Row="5" SelectedDate="{Binding DateCalendar}"/>
+            <Calendar x:Name="dateCalendar" SelectedDatesChanged="FreqSelectionChanged" HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Center" Grid.Row="5" SelectedDate="{Binding SelectedActivity.StartDate, Mode=OneWay}" DisplayDate="{Binding SelectedActivity.StartDate, Mode=OneWay}"/>
 
             <TextBlock Grid.Row="6" Margin="10,10,10,10">Turno:</TextBlock>
             <Grid Grid.Row="7">
@@ -86,13 +86,13 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <RadioButton x:Name="turnOneRadio" Content="1" HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Center"/>
-                <RadioButton x:Name="turnTwoRadio" Content="2" HorizontalAlignment="Left" Margin="10,10,10,10" Grid.Column="1" VerticalAlignment="Center"/>
-                <RadioButton x:Name="turnThreeRadio" Content="3" HorizontalAlignment="Left" Margin="10,10,10,10" Grid.Column="2" VerticalAlignment="Center"/>
+                <RadioButton GroupName="Turn1" Content="1" HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Center"/>
+                <RadioButton GroupName="Turn2" Content="2" HorizontalAlignment="Left" Margin="10,10,10,10" Grid.Column="1" VerticalAlignment="Center"/>
+                <RadioButton GroupName="Turn3" Content="3" HorizontalAlignment="Left" Margin="10,10,10,10" Grid.Column="2" VerticalAlignment="Center"/>
             </Grid>
 
             <TextBlock Grid.Row="10" Margin="10,10,10,10">Frequência:</TextBlock>
-            <ComboBox x:Name="freqCmb" SelectionChanged="FreqSelectionChanged" Grid.Row="11" Margin="10,10,10,10">
+            <ComboBox x:Name="freqCmb" SelectionChanged="FreqSelectionChanged" SelectedIndex="{Binding SelectedActivity.Frequency.Enum, Mode=OneWay}" Grid.Row="11" Margin="10,10,10,10">
                 <ComboBoxItem IsSelected="True">Não Repete</ComboBoxItem>
                 <ComboBoxItem>Semanal</ComboBoxItem>
                 <ComboBoxItem>Mensal</ComboBoxItem>

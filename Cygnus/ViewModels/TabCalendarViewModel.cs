@@ -38,6 +38,8 @@ namespace Cygnus.ViewModels
             }
         }
 
+        private int _selectIndex = 0;
+        private DataGridCell _lastSelectedCell = null;
         private DataGridCellInfo _selectedCell;
         public DataGridCellInfo SelectedCell
         {
@@ -50,43 +52,43 @@ namespace Cygnus.ViewModels
                 {
                     var cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
                     DataGridCell dataGridCell = (DataGridCell)cellContent.Parent;
+                    
+                    if (dataGridCell != _lastSelectedCell)
+                        _selectIndex = 0;
+                    else
+                        _selectIndex++;
+                    _lastSelectedCell = dataGridCell;
 
                     string cellText = ((TextBlock)dataGridCell.Content).Text;
-                    int positionOfNewLine = cellText.IndexOf("\n");
-                    string id = cellText.Substring(0, positionOfNewLine);
+
+                    string[] splitCellText = cellText.Split('\n');
+                    int numActivities = (splitCellText.Length) / 2;
+                    if (_selectIndex >= numActivities)
+                    {
+                        _selectIndex = 0;
+                    }
+
+                    string id = splitCellText[2 * _selectIndex];
+                    System.Diagnostics.Trace.WriteLine("id: " + id);
 
                     Volunteer activityOwner = (Volunteer)_selectedCell.Item;
                     Activity selectedActivity = activityOwner.Schedule.FindActivity(id);
                     if (selectedActivity != null)
                     {
-                        _idText = selectedActivity.Id;
-                        RaisePropertyChangedEvent("IdText");
-                        _posText = selectedActivity.Location;
-                        RaisePropertyChangedEvent("PosText");
+                        _selectedActivity = selectedActivity;
+                        RaisePropertyChangedEvent("SelectedActivity");
                     }
                 }
             }
         }
-
-        private string _idText;
-        public string IdText
+        private Activity _selectedActivity;
+        public Activity SelectedActivity
         {
-            get => _idText;
+            get => _selectedActivity;
             set
             {
-                _idText = value;
-                RaisePropertyChangedEvent("IdText");
-            }
-        }
-
-        private string _posText;
-        public string PosText
-        {
-            get => _posText;
-            set
-            {
-                _posText = value;
-                RaisePropertyChangedEvent("PosText");
+                _selectedActivity = value;
+                RaisePropertyChangedEvent("SelectedActivity");
             }
         }
 
@@ -212,7 +214,6 @@ namespace Cygnus.ViewModels
             _dataGrid.Columns.Add(dataGridTextColumn);
 
             Style headerStyle = new Style();
-            Style cellStyle = new Style();
             headerStyle.Setters.Add(new Setter
             {
                 Property = DataGridCell.HorizontalContentAlignmentProperty,

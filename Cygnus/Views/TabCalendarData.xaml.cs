@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System;
 using System.Windows;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace Cygnus.Views
 {
@@ -43,7 +45,7 @@ namespace Cygnus.Views
                     {
                         DateTime selectedDate = (DateTime)dateCalendar.SelectedDate;
                         int dayOfMonth = selectedDate.Day;
-                        var culture = new System.Globalization.CultureInfo("pt-BR");
+                        var culture = new CultureInfo("pt-BR");
                         string dayOfWeek = culture.DateTimeFormat.GetDayName(selectedDate.DayOfWeek);
                         int weekOfMonth = (dayOfMonth - 1) / 7 + 1;
 

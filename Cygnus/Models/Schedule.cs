@@ -115,7 +115,14 @@ namespace Cygnus.Models
         public Activity FindActivity(string name)
         {
             if (!String.IsNullOrEmpty(name))
-                return (Activity)_activities.Single(x => x.Name == name);
+                try
+                {
+                    return (Activity)_activities.Single(x => x.Name == name);
+                }
+                catch
+                {
+                    return null;
+                }
             return null;
         }
     }

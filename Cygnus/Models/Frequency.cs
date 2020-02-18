@@ -18,8 +18,40 @@ namespace Cygnus.Models
                 // TODO: Check duplicate ID
                 _type = value;
                 RaisePropertyChangedEvent("Type");
+                RaisePropertyChangedEvent("Enum");
             }
         }
+
+        private int _enum;
+        public int Enum
+        {
+            get
+            {
+                if (_type == "Semanal")
+                {
+                    _enum = 1;
+                    return 1;
+                }
+                if (_type == "Mensal")
+                {
+                    _enum = 2;
+                    return 2;
+                }
+                if (_type == "Anual")
+                {
+                    _enum = 3;
+                    return 3;
+                }
+                _enum = 0;
+                return 0;
+            }
+            set
+            {
+                _enum = value;
+                RaisePropertyChangedEvent("Enum");
+            }
+        }
+
         private string _period;
         public string Period
         {
